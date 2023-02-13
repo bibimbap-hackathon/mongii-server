@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model node {
+  node_id Int    @id @default(autoincrement())
+  ip      String
+  name    String @unique
+  info    String
+  edge    edge[]
+}
+
+model edge {
+  edge_id Int      @id @default(autoincrement())
+  ip      String
+  name    String   @unique
+  info    String
+  node_id Int
+  node    node     @relation(fields: [node_id], references: [node_id])
+  module  module[]
+}
+
+model module {
+  module_id Int      @id @default(autoincrement())
+  ip        String
+  name      String
+  info      String
+  priority  Int
+  edge_id   Int
+  edge      edge     @relation(fields: [edge_id], references: [edge_id])
+  script    script[]
+}
+
+model script {
+  script_id Int    @id @default(autoincrement())
+  name      String
+  src       String
+  enc       String
+  module_id Int
+  module    module @relation(fields: [module_id], references: [module_id])
+}
