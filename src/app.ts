@@ -1,30 +1,21 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import {PrismaClient} from '@prisma/client'
+import nodeRouter from './node/node.route';
 
-const prisma = new PrismaClient()
 const port = 3003;
 const app = express();
 
 app.use(cors());
 app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/ping', (req: Request, res: Response) => {
-    res.send('pong');
+  res.send('pong');
 });
 
-app.get('/prisma', async (req: Request, res: Response) => {
-    const result = await prisma.node.create({
-        data: {
-            ip: '123',
-            name: '123',
-            info: '1234'
-        }
-    });
-    res.send(result);
-});
-
+app.use(nodeRouter);
 
 app.listen(port);
 console.info('App is listening on port:', port);
