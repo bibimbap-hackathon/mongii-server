@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import nodeRouter from './node/node.route';
+import errorMiddleware from './middlewares/error.middleware'
 
 const port = 3003;
 const app = express();
@@ -16,6 +17,7 @@ app.get('/ping', (req: Request, res: Response) => {
 });
 
 app.use(nodeRouter);
+app.use(errorMiddleware);
 
 app.listen(port);
 console.info('App is listening on port:', port);
