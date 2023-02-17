@@ -1,11 +1,11 @@
-import { Node, PrismaClient } from '@prisma/client';
+import { node, PrismaClient } from '@prisma/client';
 import { NodeDto } from './node.dto';
 
 const prisma = new PrismaClient();
 const countPerCount = 20;
 
 class NodeService {
-  public getAllNodes = async (pageNo: number): Promise<Node[]> => {
+  public getAllNodes = async (pageNo: number): Promise<node[]> => {
     const skipNo = pageNo * countPerCount;
     const result = await prisma.node.findMany({
       skip: skipNo,
@@ -15,7 +15,7 @@ class NodeService {
     return result;
   };
 
-  public getNodeById = async (nodeId: number): Promise<Node> => {
+  public getNodeById = async (nodeId: number): Promise<node> => {
     const result = await prisma.node.findUniqueOrThrow({
       where: { node_id: nodeId },
     });
@@ -23,7 +23,7 @@ class NodeService {
     return result;
   };
 
-  public createNode = async (node: NodeDto): Promise<Node> => {
+  public createNode = async (node: NodeDto): Promise<node> => {
     const result = await prisma.node.create({
       data: node,
     });
@@ -31,7 +31,7 @@ class NodeService {
     return result;
   };
 
-  public updateNode = async (nodeId: number, node: NodeDto): Promise<Node> => {
+  public updateNode = async (nodeId: number, node: NodeDto): Promise<node> => {
     const result = await prisma.node.update({
       where: { node_id: nodeId },
       data: node,
@@ -40,7 +40,7 @@ class NodeService {
     return result;
   };
 
-  public deleteNode = async (nodeId: number): Promise<Node> => {
+  public deleteNode = async (nodeId: number): Promise<node> => {
     const result = await prisma.node.delete({
       where: { node_id: nodeId },
     });
