@@ -50,7 +50,7 @@ model script {
   script_id Int    @id @default(autoincrement())
   name      String
   src       String
-  enc       String
+  env       String
   module_id Int
   module    module @relation(fields: [module_id], references: [module_id])
   created_date       DateTime           @default(now())
