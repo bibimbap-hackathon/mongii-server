@@ -57,8 +57,8 @@ class ModuleController {
     try {
       const moduleId = Number(req.params.id);
       const module = plainToInstance(ModuleDto, req.body);
-      const getModule = await this.moduleService.updateModule(moduleId, module);
-      res.status(200).json({ data: getModule, message: 'updated' });
+      const updateModule = await this.moduleService.updateModule(moduleId, module);
+      res.status(200).json({ data: updateModule, message: 'updated' });
     } catch (error) {
       next(error);
     }
