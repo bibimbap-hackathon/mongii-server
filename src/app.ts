@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import nodeRouter from './node/node.route';
-import errorMiddleware from './middlewares/error.middleware'
+import errorMiddleware from './middlewares/error.middleware';
+import nodeRouter from './modules/node/node.route';
+import edgeRouter from './modules/edge/edge.route';
 
 const port = 3003;
 const app = express();
@@ -17,6 +18,7 @@ app.get('/ping', (req: Request, res: Response) => {
 });
 
 app.use(nodeRouter);
+app.use(edgeRouter);
 app.use(errorMiddleware);
 
 app.listen(port);
