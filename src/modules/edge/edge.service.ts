@@ -33,7 +33,7 @@ class EdgeService {
 
   public updateEdge = async (edgeId: number, edge: EdgeDto): Promise<edge> => {
     const result = await prisma.edge.update({
-      where: {edge_id: edgeId},
+      where: { edge_id: edgeId },
       data: edge,
     });
     prisma.$disconnect();
@@ -42,12 +42,11 @@ class EdgeService {
 
   public deleteEdge = async (edgeId: number): Promise<edge> => {
     const result = await prisma.edge.delete({
-      where: {edge_id: edgeId},
+      where: { edge_id: edgeId },
     });
     prisma.$disconnect();
     return result;
   };
-
 }
 
 export default EdgeService;

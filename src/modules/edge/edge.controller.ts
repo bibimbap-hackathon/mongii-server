@@ -1,7 +1,6 @@
 import EdgeService from './edge.service';
 import { NextFunction, Request, Response } from 'express';
 import { plainToInstance } from 'class-transformer';
-import { NodeDto } from '../node/node.dto';
 import { EdgeDto } from './edge.dto';
 
 class EdgeController {
