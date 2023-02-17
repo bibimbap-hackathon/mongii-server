@@ -4,7 +4,7 @@ import cors from 'cors';
 import errorMiddleware from './middlewares/error.middleware';
 import nodeRouter from './modules/node/node.route';
 import edgeRouter from './modules/edge/edge.route';
-import moduleRouter from './modules/module/module.route'
+import moduleRouter from './modules/module/module.route';
 
 const port = 3003;
 const app = express();

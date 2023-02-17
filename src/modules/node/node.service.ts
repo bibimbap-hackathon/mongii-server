@@ -1,6 +1,6 @@
 import { node, PrismaClient } from '@prisma/client';
 import { NodeDto } from './node.dto';
-import { countPerPage } from '../../config/env'
+import { countPerPage } from '../../config/env';
 
 const prisma = new PrismaClient();
 
