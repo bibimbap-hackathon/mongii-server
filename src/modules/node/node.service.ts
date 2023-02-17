@@ -1,15 +1,15 @@
 import { node, PrismaClient } from '@prisma/client';
 import { NodeDto } from './node.dto';
+import { countPerPage } from '../../config/env'
 
 const prisma = new PrismaClient();
-const countPerCount = 20;
 
 class NodeService {
   public getAllNodes = async (pageNo: number): Promise<node[]> => {
-    const skipNo = pageNo * countPerCount;
+    const skipNo = pageNo * countPerPage;
     const result = await prisma.node.findMany({
       skip: skipNo,
-      take: countPerCount,
+      take: countPerPage,
     });
     prisma.$disconnect();
     return result;

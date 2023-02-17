@@ -1,8 +1,8 @@
-import { edge, module, PrismaClient } from '@prisma/client';
+import { module, PrismaClient } from '@prisma/client';
 import { ModuleDto } from './module.dto';
+import { countPerPage } from '../../config/env';
 
 const prisma = new PrismaClient();
-const countPerCount = 20;
 
 class ModuleService {
   public createModule = async (module: ModuleDto): Promise<module> => {
@@ -14,10 +14,10 @@ class ModuleService {
   };
 
   public getAllModules = async (pageNo: number): Promise<module[]> => {
-    const skipNo = pageNo * countPerCount;
+    const skipNo = pageNo * Number(countPerPage);
     const result = prisma.module.findMany({
       skip: skipNo,
-      take: countPerCount,
+      take: countPerPage,
     });
     prisma.$disconnect();
     return result;
