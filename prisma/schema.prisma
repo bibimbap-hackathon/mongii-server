@@ -16,6 +16,8 @@ model node {
   name    String @unique
   info    String
   edge    edge[]
+  created_date       DateTime           @default(now())
+  updated_date       DateTime           @updatedAt
 }
 
 model edge {
@@ -23,9 +25,12 @@ model edge {
   ip      String
   name    String   @unique
   info    String
+  password String
   node_id Int
   node    node     @relation(fields: [node_id], references: [node_id])
   module  module[]
+  created_date       DateTime           @default(now())
+  updated_date       DateTime           @updatedAt
 }
 
 model module {
@@ -37,6 +42,8 @@ model module {
   edge_id   Int
   edge      edge     @relation(fields: [edge_id], references: [edge_id])
   script    script[]
+  created_date       DateTime           @default(now())
+  updated_date       DateTime           @updatedAt
 }
 
 model script {
@@ -46,4 +53,6 @@ model script {
   enc       String
   module_id Int
   module    module @relation(fields: [module_id], references: [module_id])
+  created_date       DateTime           @default(now())
+  updated_date       DateTime           @updatedAt
 }
