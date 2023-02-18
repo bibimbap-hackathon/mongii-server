@@ -56,3 +56,28 @@ model script {
   created_date       DateTime           @default(now())
   updated_date       DateTime           @updatedAt
 }
+
+model dashboard {
+  dashboard_id  Int     @id @default(autoincrement())
+  name          String
+  uid           String
+  url           String
+}
+
+model panel {
+  panel_id  Int     @id @default(autoincrement())
+  uid       String
+  x         Int
+  y         Int
+  z         Int
+  h         Int
+  mode      String
+}
+
+model task {
+  task_id   Int     @id @default(autoincrement())
+  info      String
+  is_completed  Boolean
+  created_date       DateTime           @default(now())
+  updated_date       DateTime           @updatedAt
+}
