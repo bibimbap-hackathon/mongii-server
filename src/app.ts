@@ -7,6 +7,7 @@ import edgeRouter from './modules/edge/edge.route';
 import moduleRouter from './modules/module/module.route';
 import scriptRouter from './modules/script/script.route';
 import dashboardRouter from './modules/dashboard/dashboard.route';
+import panelRouter from './modules/panel/panel.route';
 
 const port = 3003;
 const app = express();
@@ -25,6 +26,7 @@ app.use(edgeRouter);
 app.use(moduleRouter);
 app.use(scriptRouter);
 app.use(dashboardRouter);
+app.use(panelRouter);
 app.use(errorMiddleware);
 
 app.listen(port);
