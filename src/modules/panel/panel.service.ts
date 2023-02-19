@@ -1,5 +1,5 @@
 import { panel, PrismaClient } from '@prisma/client';
-import { countPerPage } from '../../config/env';
+import { CountPerPage } from '../../config/env';
 import { PanelDto } from './panel.dto';
 
 const prisma = new PrismaClient();
@@ -14,10 +14,10 @@ class PanelService {
   };
 
   public getAllPanels = async (pageNo: number): Promise<panel[]> => {
-    const skipNo = pageNo * Number(countPerPage);
+    const skipNo = pageNo * Number(CountPerPage);
     const result = prisma.panel.findMany({
       skip: skipNo,
-      take: countPerPage,
+      take: CountPerPage,
     });
     prisma.$disconnect();
     return result;

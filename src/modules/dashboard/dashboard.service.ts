@@ -1,6 +1,6 @@
 import { dashboard, edge, PrismaClient } from '@prisma/client';
 import { DashboardDto } from './dashboard.dto';
-import { countPerPage } from '../../config/env';
+import { CountPerPage } from '../../config/env';
 
 const prisma = new PrismaClient();
 
@@ -16,10 +16,10 @@ class DashboardService {
   };
 
   public getAllDashboards = async (pageNo: number): Promise<dashboard[]> => {
-    const skipNo = pageNo * countPerPage;
+    const skipNo = pageNo * CountPerPage;
     const result = prisma.dashboard.findMany({
       skip: skipNo,
-      take: countPerPage,
+      take: CountPerPage,
     });
     prisma.$disconnect();
     return result;

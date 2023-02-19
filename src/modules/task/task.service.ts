@@ -1,5 +1,5 @@
 import { task, PrismaClient } from '@prisma/client';
-import { countPerPage } from '../../config/env';
+import { CountPerPage } from '../../config/env';
 import { TaskDto } from './task.dto';
 
 const prisma = new PrismaClient();
@@ -14,10 +14,10 @@ class TaskService {
   };
 
   public getAllTasks = async (pageNo: number): Promise<task[]> => {
-    const skipNo = pageNo * Number(countPerPage);
+    const skipNo = pageNo * Number(CountPerPage);
     const result = prisma.task.findMany({
       skip: skipNo,
-      take: countPerPage,
+      take: CountPerPage,
     });
     prisma.$disconnect();
     return result;

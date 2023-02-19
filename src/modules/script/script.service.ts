@@ -1,6 +1,6 @@
 import { script, PrismaClient, node } from '@prisma/client';
 import { ScriptDto } from './script.dto';
-import { countPerPage } from '../../config/env';
+import { CountPerPage } from '../../config/env';
 
 const prisma = new PrismaClient();
 
@@ -14,10 +14,10 @@ class ScriptService {
   };
 
   public getAllScripts = async (pageNo: number): Promise<script[]> => {
-    const skipNo = pageNo * countPerPage;
+    const skipNo = pageNo * CountPerPage;
     const result = await prisma.script.findMany({
       skip: skipNo,
-      take: countPerPage,
+      take: CountPerPage,
     });
     prisma.$disconnect();
     return result;

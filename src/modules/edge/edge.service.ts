@@ -1,15 +1,15 @@
 import { edge, PrismaClient } from '@prisma/client';
 import { EdgeDto } from './edge.dto';
-import { countPerPage } from '../../config/env';
+import { CountPerPage } from '../../config/env';
 
 const prisma = new PrismaClient();
 
 class EdgeService {
   public getAllEdges = async (pageNo: number): Promise<edge[]> => {
-    const skipNo = pageNo * countPerPage;
+    const skipNo = pageNo * CountPerPage;
     const result = prisma.edge.findMany({
       skip: skipNo,
-      take: countPerPage,
+      take: CountPerPage,
     });
     prisma.$disconnect();
     return result;
