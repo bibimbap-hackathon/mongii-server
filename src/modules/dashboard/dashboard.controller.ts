@@ -12,11 +12,17 @@ class DashboardController {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const dashboard = plainToInstance(DashboardDto, req.body);
+      const dashboard = new DashboardDto();
+      dashboard.url = req.body.url;
+      dashboard.uid = req.body.uid;
+      dashboard.name = req.body.slug;
       const createdDashboard = await this.dashboardService.createDashboard(
         dashboard
       );
-      res.status(201).json({ data: createdDashboard, message: 'created' });
+      res.status(201).json({
+        data: createdDashboard,
+        message: 'created',
+      });
     } catch (error) {
       next(error);
     }
@@ -63,7 +69,10 @@ class DashboardController {
     try {
       const dashboardId = Number(req.params.id);
       const dashboard = plainToInstance(DashboardDto, req.body);
-      const updateDashboard = await this.dashboardService.updateDashboard(dashboardId, dashboard);
+      const updateDashboard = await this.dashboardService.updateDashboard(
+        dashboardId,
+        dashboard
+      );
       res.status(200).json({ data: updateDashboard, message: 'updated' });
     } catch (error) {
       next(error);
@@ -77,7 +86,9 @@ class DashboardController {
   ): Promise<void> => {
     try {
       const dashboardId = Number(req.params.id);
-      const deleteDashboard = await this.dashboardService.deleteDashboard(dashboardId);
+      const deleteDashboard = await this.dashboardService.deleteDashboard(
+        dashboardId
+      );
       res.status(200).json({ data: deleteDashboard, message: 'deleted' });
     } catch (error) {
       next(error);

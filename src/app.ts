@@ -9,6 +9,7 @@ import scriptRouter from './modules/script/script.route';
 import dashboardRouter from './modules/dashboard/dashboard.route';
 import panelRouter from './modules/panel/panel.route';
 import taskRouter from './modules/task/task.route';
+import grafanaRouter from './modules/grafana/grafana.route';
 
 const port = 3003;
 const app = express();
@@ -29,6 +30,7 @@ app.use(scriptRouter);
 app.use(dashboardRouter);
 app.use(panelRouter);
 app.use(taskRouter);
+app.use(grafanaRouter);
 app.use(errorMiddleware);
 
 app.listen(port);
