@@ -68,7 +68,10 @@ class DashboardController {
   ): Promise<void> => {
     try {
       const dashboardId = Number(req.params.id);
-      const dashboard = plainToInstance(DashboardDto, req.body);
+      const dashboard = new DashboardDto();
+      dashboard.url = req.body.url;
+      dashboard.uid = req.body.uid;
+      dashboard.name = req.body.slug;
       const updateDashboard = await this.dashboardService.updateDashboard(
         dashboardId,
         dashboard

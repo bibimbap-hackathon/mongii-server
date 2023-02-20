@@ -44,6 +44,47 @@ class GrafanaController {
       next(error);
     }
   };
+
+  public updateDashBoard = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const dashboardId = Number(req.params.id);
+      const dashboard = plainToInstance(DashboardDto, req.body);
+      const { data, status } = await axios.post(
+        GrafanaURL + '/api/dashboards/db',
+        {
+          dashboard: {
+            id: dashboardId,
+            uid: null,
+            title: dashboard.name,
+            tags: ['templated'],
+            timezone: 'browser',
+            schemaVersion: 16,
+            version: 0,
+            refresh: '25s',
+          },
+          message: 'Made changes to xyz',
+          overwrite: false,
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            Authorization: GrafanaToken,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      req.body = { ...data};
+      console.log(data);
+      next();
+      // res.json({ data: data, status: status });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default GrafanaController;
