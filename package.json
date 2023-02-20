@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/app.ts",
-    "dev": "nodemon --watch \"*.ts\" --exec \"ts-node\" src/app.ts"
+    "dev": "nodemon --watch \"*.ts\" --exec \"ts-node\" src/app.ts",
+    "tsc": "tsc"
   },
   "keywords": [],
   "author": "",
