@@ -10,9 +10,12 @@ import dashboardRouter from './modules/dashboard/dashboard.route';
 import panelRouter from './modules/panel/panel.route';
 import taskRouter from './modules/task/task.route';
 import grafanaRouter from './modules/grafana/grafana.route';
+import * as http from 'http';
+import socketConfig from './socket';
 
 const port = 3003;
 const app = express();
+const server = http.createServer(app);
 
 app.use(cors());
 app.use(helmet());
@@ -33,5 +36,8 @@ app.use(taskRouter);
 app.use(grafanaRouter);
 app.use(errorMiddleware);
 
-app.listen(port);
-console.info('App is listening on port:', port);
+socketConfig(server);
+
+server.listen(port, () => {
+  console.info('App is listening on port:', port);
+});
