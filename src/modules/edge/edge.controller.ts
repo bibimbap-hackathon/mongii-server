@@ -49,6 +49,20 @@ class EdgeController {
     }
   };
 
+  public getEdgeByNodeId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const nodeId = Number(req.params.id);
+      const getEdges = await this.edgeService.getEdgeByNodeId(nodeId);
+      res.status(200).json({ data: getEdges, message: 'getMany' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public updateEdge = async (
     req: Request,
     res: Response,

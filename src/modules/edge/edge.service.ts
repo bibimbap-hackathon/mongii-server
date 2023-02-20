@@ -23,6 +23,14 @@ class EdgeService {
     return result;
   };
 
+  public getEdgeByNodeId = async (nodeId: number): Promise<edge[]> => {
+    const result = prisma.edge.findMany({
+      where: { node_id: nodeId },
+    });
+    prisma.$disconnect();
+    return result;
+  };
+
   public createEdge = async (edge: EdgeDto): Promise<edge> => {
     const result = await prisma.edge.create({
       data: edge,
