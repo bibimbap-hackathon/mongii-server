@@ -29,6 +29,7 @@ CREATE TABLE `module` (
 	`name`	varchar(255)	NOT NULL,
 	`info`	varchar(255)	NOT NULL,
 	`priority`	int	NOT NULL,
+    `errorNo`	int	NOT NULL default 0,
 	`created_date`	datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_date`	datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

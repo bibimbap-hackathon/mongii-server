@@ -42,6 +42,7 @@ model module {
   edge_id   Int
   edge      edge     @relation(fields: [edge_id], references: [edge_id])
   script    script[]
+  errorNo   Int     @default(0)
   created_date       DateTime           @default(now())
   updated_date       DateTime           @updatedAt
 }
