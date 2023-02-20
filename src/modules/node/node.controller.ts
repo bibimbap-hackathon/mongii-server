@@ -35,6 +35,21 @@ class NodeController {
     }
   };
 
+  public getAllNodesWithJoin = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      let pageNo = Number(req.query.pageNo);
+      if (isNaN(pageNo)) pageNo = 0;
+      const getNodes = await this.nodeService.getAllNodesWithJoin(pageNo);
+      res.status(200).json({ data: getNodes, message: 'getAll' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public getNodeById = async (
     req: Request,
     res: Response,

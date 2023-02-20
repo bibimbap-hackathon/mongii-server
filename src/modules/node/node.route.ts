@@ -6,6 +6,7 @@ const path = '/node';
 const nodeController = new NodeController();
 
 nodeRouter.get(`${path}`, nodeController.getAllNodes);
+nodeRouter.get(`${path}/join`, nodeController.getAllNodesWithJoin);
 nodeRouter.get(`${path}/:id(\\d+)`, nodeController.getNodeById);
 nodeRouter.post(`${path}`, nodeController.createNode);
 nodeRouter.put(`${path}/:id(\\d+)`, nodeController.updateNode);

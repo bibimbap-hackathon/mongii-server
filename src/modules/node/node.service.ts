@@ -15,6 +15,23 @@ class NodeService {
     return result;
   };
 
+  public getAllNodesWithJoin = async (pageNo: number): Promise<any> => {
+    const skipNo = pageNo * CountPerPage;
+    const result = await prisma.node.findMany({
+      skip: skipNo,
+      take: CountPerPage,
+      include:{
+        edge:{
+          include:{
+            module:true
+          }
+        },
+      }
+    });
+    prisma.$disconnect();
+    return result;
+  };
+
   public getNodeById = async (nodeId: number): Promise<node> => {
     const result = await prisma.node.findUniqueOrThrow({
       where: { node_id: nodeId },
