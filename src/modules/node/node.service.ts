@@ -20,13 +20,15 @@ class NodeService {
     const result = await prisma.node.findMany({
       skip: skipNo,
       take: CountPerPage,
-      include:{
-        edge:{
-          include:{
-            module:true
-          }
+      include: {
+        edge: {
+          include: {
+            module: true,
+          },
         },
-      }
+        // @ts-ignore
+        module: true,
+      },
     });
     prisma.$disconnect();
     return result;

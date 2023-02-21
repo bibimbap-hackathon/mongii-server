@@ -22,4 +22,8 @@ export class ModuleDto {
   @Type(() => Number)
   @IsNumber()
   public edge_id!: number;
+
+  @Type(() => Number)
+  @IsNumber()
+  public node_id!: number;
 }

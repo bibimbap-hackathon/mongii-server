@@ -1,4 +1,4 @@
-import { dashboard, edge, PrismaClient } from '@prisma/client';
+import { dashboard, PrismaClient } from '@prisma/client';
 import { DashboardDto } from './dashboard.dto';
 import { CountPerPage } from '../../config/env';
 

@@ -2,6 +2,7 @@ import ModuleService from './module.service';
 import { NextFunction, Request, Response } from 'express';
 import { plainToInstance } from 'class-transformer';
 import { ModuleDto } from './module.dto';
+import { HttpException } from '../../exceptions/HttpException';
 
 class ModuleController {
   public moduleService = new ModuleService();
@@ -13,6 +14,9 @@ class ModuleController {
   ): Promise<void> => {
     try {
       const module = plainToInstance(ModuleDto, req.body);
+      if(!module.node_id == !module.edge_id){
+        throw new HttpException(400, "Must enter either node or edge.");
+      }
       const createdModule = await this.moduleService.createModule(module);
       res.status(201).json({ data: createdModule, message: 'created' });
     } catch (error) {
