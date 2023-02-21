@@ -18,6 +18,7 @@ model node {
   edge    edge[]
   created_date       DateTime           @default(now())
   updated_date       DateTime           @updatedAt
+  module  module[]
 }
 
 model edge {
@@ -39,8 +40,10 @@ model module {
   name      String
   info      String
   priority  Int
-  edge_id   Int
-  edge      edge     @relation(fields: [edge_id], references: [edge_id])
+  edge_id   Int?
+  edge      edge?     @relation(fields: [edge_id], references: [edge_id])
+  node_id   Int?
+  node    node?     @relation(fields: [node_id], references: [node_id])
   script    script[]
   errorNo   Int     @default(0)
   created_date       DateTime           @default(now())

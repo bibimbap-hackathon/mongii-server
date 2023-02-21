@@ -24,7 +24,8 @@ CREATE TABLE `edge` (
 DROP TABLE IF EXISTS `module`;
 CREATE TABLE `module` (
 	`module_id`	int	primary key auto_increment,
-	`edge_id`	int	NOT NULL,
+	`edge_id`	int,
+    `node_id`	int,
 	`ip`	varchar(100)	NOT NULL,
 	`name`	varchar(255)	NOT NULL,
 	`info`	varchar(255)	NOT NULL,
@@ -85,6 +86,13 @@ ALTER TABLE `module` ADD CONSTRAINT `FK_edge_TO_module_1` FOREIGN KEY (
 )
 REFERENCES `edge` (
 	`edge_id`
+);
+
+ALTER TABLE `module` ADD CONSTRAINT `FK_node_TO_module_1` FOREIGN KEY (
+	`node_id`
+)
+REFERENCES `node` (
+	`node_id`
 );
 
 ALTER TABLE `script` ADD CONSTRAINT `FK_module_TO_script_1` FOREIGN KEY (
