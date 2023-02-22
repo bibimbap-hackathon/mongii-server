@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { plainToInstance } from 'class-transformer';
 import TaskService from './task.service';
 import { TaskDto } from './task.dto';
+import axios from 'axios';
 
 class TaskController {
   public taskService = new TaskService();
@@ -73,6 +74,91 @@ class TaskController {
       const taskId = Number(req.params.id);
       const deleteTask = await this.taskService.deleteTask(taskId);
       res.status(200).json({ data: deleteTask, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public edgeToFog = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const moduleId = Number(req.params.id);
+      const data = await this.taskService.getEdgeAndFogIp(moduleId);
+      // const result = await axios.post(
+      //
+      // )
+      res.status(200).json({
+        data: {
+          edgeIp: data.edge.ip,
+          fogIp: data.edge.node.ip,
+          moduleName: data.name,
+        },
+        message: 'EdgeToFog',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public FogToEdge = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const moduleId = Number(req.params.id);
+      const data = await this.taskService.getEdgeAndFogIp(moduleId);
+      res.status(200).json({
+        data: {
+          edgeIp: data.edge.ip,
+          fogIp: data.edge.node.ip,
+          moduleName: data.name,
+        },
+        message: 'FogToEdge',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public ecoOn = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const moduleId = Number(req.params.id);
+      const data = await this.taskService.getEdgeAndFogIp(moduleId);
+      res.status(200).json({
+        data: {
+          edgeIp: data.edge.ip,
+          fogIp: data.edge.node.ip,
+        },
+        message: 'ecoOn',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public ecoOff = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const moduleId = Number(req.params.id);
+      const data = await this.taskService.getEdgeAndFogIp(moduleId);
+      res.status(200).json({
+        data: {
+          edgeIp: data.edge.ip,
+          fogIp: data.edge.node.ip,
+        },
+        message: 'ecoOff',
+      });
     } catch (error) {
       next(error);
     }

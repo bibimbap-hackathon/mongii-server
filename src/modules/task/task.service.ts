@@ -47,6 +47,27 @@ class TaskService {
     prisma.$disconnect();
     return result;
   };
+
+  public getEdgeAndFogIp = async (moduleId: number): Promise<any> => {
+    const result = prisma.module.findFirstOrThrow({
+      where: { module_id: moduleId },
+      select: {
+        name: true,
+        edge: {
+          select: {
+            ip: true,
+            node:{
+              select: {
+                ip:true
+              }
+            }
+          },
+        },
+      },
+    });
+    prisma.$disconnect();
+    return result;
+  };
 }
 
 export default TaskService;
