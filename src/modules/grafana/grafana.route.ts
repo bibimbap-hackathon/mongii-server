@@ -8,6 +8,6 @@ const grafanaController = new GrafanaController();
 const dashboardController = new DashboardController();
 
 grafanaRouter.post(`${path}`, grafanaController.createDashBoardAndPanel, dashboardController.createDashboard);
-grafanaRouter.post(`${path}/:id(\\d+)`, grafanaController.updateDashBoard, dashboardController.updateDashboard);
+grafanaRouter.post(`${path}/:id(\\d+)`, grafanaController.createPanel, dashboardController.updateDashboard);
 
 export default grafanaRouter;
