@@ -4,62 +4,63 @@ import { module, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+
 export default function socketConfig(server: http.Server) {
   const io = new Server(server);
 
   const myNamespace = io.of('/socket');
 
+  interface count {
+    [module: string]: number;
+  }
+
+  const counts: count = {};
+
   myNamespace.on('connection', (socket: Socket) => {
     console.log(`Edge connected from ${socket.handshake.address}`);
 
-    socket.on('log', async (data, callback) => {
-      console.log(data);
-      const temp = data.split('');
-      const result = await prisma.$transaction(async (tx) => {
-        // const moduleError: module[] = await tx.module.findMany({
-        //   where: { edge_id: Number(temp[0]) },
-        // });
-        // for (const module2 in moduleError){
-        //   if (moduleError[module2].errorNo == 0){
-        //
-        //   }
-        // }
-        const update = await tx.module.updateMany({
-          where: { edge_id: Number(temp[0]) },
-          data: {
-            errorNo: {
-              increment: 1,
-            },
-          },
-        });
-        const select = await tx.module.findMany({
-          where: {
-            edge_id: Number(temp[0]),
-            errorNo: {
-              gte: 3,
-            },
-          },
-        });
-        // socket.emit('log', JSON.stringify(select));
-
-        const update2 = await tx.module.updateMany({
-          where: {
-            edge_id: Number(temp[0]),
-            errorNo: {
-              gte: 3,
-            },
-          },
-          data: {
-            errorNo: {
-              decrement: 3,
-            },
-            // @ts-ignore
-            state: '1',
-          },
-        });
-        callback({ ...select });
-      });
+    socket.on('log', async (data) => {
+      const temp = data.split(' ');
+      if (!counts[temp[0]]) {
+        counts[temp[0]] = 1;
+      } else {
+        counts[temp[0]]++;
+      }
     });
+
+    setInterval(async () => {
+      // console.log(counts);
+      for (let module in counts) {
+        if (counts[module] > 0) {
+          counts[module] = 0
+        } else {
+          const update = await prisma.module.updateMany({
+            where: { ip: module },
+            data: {
+              errorNo: {
+                increment: 1,
+              },
+            },
+          });
+
+          const setState = await prisma.module.updateMany({
+            where: {
+              ip: module,
+              errorNo: {
+                gte: 5,
+              },
+            },
+            data: {
+              errorNo: {
+                decrement: 3,
+              },
+              // @ts-ignore
+              state: '1',
+            },
+          });
+        }
+      }
+    }, 2000);
 
     socket.on('disconnect', () => {
       console.log(`Edge disconnected from ${socket.handshake.address}`);
