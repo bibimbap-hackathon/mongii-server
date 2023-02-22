@@ -11,6 +11,12 @@ export class ModuleDto {
   @IsString()
   public info!: string;
 
+  @IsString()
+  public github_url!: string;
+
+  @IsString()
+  public state!: string;
+
   @Type(() => Number)
   @IsNumber()
   public priority!: number;
