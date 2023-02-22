@@ -31,6 +31,8 @@ CREATE TABLE `module` (
 	`info`	varchar(255)	NOT NULL,
 	`priority`	int	NOT NULL,
     `errorNo`	int	NOT NULL default 0,
+    `github_url` varchar(500) NOT NULL,
+    `state` varchar(255) NOT NULL,
 	`created_date`	datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_date`	datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -101,3 +103,5 @@ ALTER TABLE `script` ADD CONSTRAINT `FK_module_TO_script_1` FOREIGN KEY (
 REFERENCES `module` (
 	`module_id`
 );
+
+ALTER TABLE `module` ADD `github_url` varchar(500) NOT NULL;

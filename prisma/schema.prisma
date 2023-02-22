@@ -40,6 +40,8 @@ model module {
   name      String
   info      String
   priority  Int
+  github_url String?
+  state     String?
   edge_id   Int?
   edge      edge?     @relation(fields: [edge_id], references: [edge_id])
   node_id   Int?
