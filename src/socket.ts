@@ -3,7 +3,6 @@ import * as http from 'http';
 import { module, PrismaClient } from '@prisma/client';
 import axios from 'axios';
 import { RemoteURL } from './config/env';
-import TaskService from './modules/task/task.service';
 
 const prisma = new PrismaClient();
 
@@ -11,7 +10,6 @@ export default function socketConfig(server: http.Server) {
   const io = new Server(server);
 
   const myNamespace = io.of('/socket');
-  const taskService = new TaskService();
 
   interface count {
     [module: string]: number;
