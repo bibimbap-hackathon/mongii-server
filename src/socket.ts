@@ -1,14 +1,17 @@
 import { Server, Socket } from 'socket.io';
 import * as http from 'http';
 import { module, PrismaClient } from '@prisma/client';
+import axios from 'axios';
+import { RemoteURL } from './config/env';
+import TaskService from './modules/task/task.service';
 
 const prisma = new PrismaClient();
-
 
 export default function socketConfig(server: http.Server) {
   const io = new Server(server);
 
   const myNamespace = io.of('/socket');
+  const taskService = new TaskService();
 
   interface count {
     [module: string]: number;
@@ -29,35 +32,74 @@ export default function socketConfig(server: http.Server) {
     });
 
     setInterval(async () => {
-      // console.log(counts);
-      for (let module in counts) {
-        if (counts[module] > 0) {
-          counts[module] = 0
+      console.log(counts);
+      for (let moduleIp in counts) {
+        if (counts[moduleIp] > 0) {
+          counts[moduleIp] = 0;
         } else {
-          const update = await prisma.module.updateMany({
-            where: { ip: module },
-            data: {
-              errorNo: {
-                increment: 1,
+          try {
+            const update = await prisma.module.updateMany({
+              where: { ip: moduleIp },
+              data: {
+                errorNo: {
+                  increment: 1,
+                },
               },
-            },
-          });
+            });
 
-          const setState = await prisma.module.updateMany({
-            where: {
-              ip: module,
-              errorNo: {
-                gte: 5,
+            const setState = await prisma.module.updateMany({
+              where: {
+                ip: moduleIp,
+                errorNo: {
+                  gte: 5,
+                },
               },
-            },
-            data: {
-              errorNo: {
-                decrement: 3,
+              data: {
+                // @ts-ignore
+                state: '1',
               },
+            });
+            const data:any = await prisma.module.findFirstOrThrow({
               // @ts-ignore
-              state: '1',
-            },
-          });
+              where: { ip: moduleIp, state: '1' },
+              select: {
+                name: true,
+                edge: {
+                  select: {
+                    ip: true,
+                    node: {
+                      select: {
+                        ip: true,
+                      },
+                    },
+                  },
+                },
+              },
+            });
+            const body = {
+              edgeIp: data.edge.ip,
+              fogIp: data.edge.node.ip,
+              moduleName: data.name,
+            };
+            const result = await axios.post(`${RemoteURL}/e2f/`, body);
+            const setState2 = await prisma.module.updateMany({
+              where: {
+                ip: moduleIp,
+                errorNo: {
+                  gte: 5,
+                },
+              },
+              data: {
+                errorNo: 0,
+                // @ts-ignore
+                state: '0',
+              },
+            });
+            console.log(body);
+          }
+          catch (e){
+
+          }
         }
       }
     }, 2000);
