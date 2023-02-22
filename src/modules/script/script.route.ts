@@ -8,7 +8,7 @@ const scriptController = new ScriptController();
 scriptRouter.get(`${path}`, scriptController.getAllScript);
 scriptRouter.get(`${path}/:id(\\d+)`, scriptController.getScriptById);
 scriptRouter.post(`${path}`, scriptController.createScript);
-scriptRouter.put(`${path}/:id(\\d+)`, scriptController.updateScript);
+scriptRouter.patch(`${path}/:id(\\d+)`, scriptController.updateScript);
 scriptRouter.delete(`${path}/:id(\\d+)`, scriptController.deleteScript);
 
 export default scriptRouter;
